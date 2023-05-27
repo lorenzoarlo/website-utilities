@@ -221,7 +221,7 @@ class lacb extends HTMLElement {
     
 }
 
-document.currentScript.onload = function() { customElements.define("lorenzoarlo-cookiebutton", lacb);};
+document.currentScript.onload = function() { if(!customElements.get("lorenzoarlo-cookiebutton")) customElements.define("lorenzoarlo-cookiebutton", lacb);};
 
 if(!customElements.get("lorenzoarlo-cookiebutton")) {
     customElements.define("lorenzoarlo-cookiebutton", lacb);
