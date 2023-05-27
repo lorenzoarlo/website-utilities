@@ -125,8 +125,12 @@ class lacb extends HTMLElement {
 
         this.attachShadow({mode: 'open'});
         
-        
 
+        this.should_appear = lacb.should_appear();
+
+        if(!this.should_appear) {
+            return;
+        }
 
         this.shadowRoot.innerHTML = lacb.html_content;
 
@@ -145,22 +149,27 @@ class lacb extends HTMLElement {
 
     connectedCallback() 
     {
+        if(!this.should_appear) {
+            return;
+        }
+
+
         if(this.hasAttribute("on-accept-script-path")) this.acceptScript_path = this.getAttribute("on-accept-script-path");
         if(this.hasAttribute("on-decline-script-path")) this.declineScript_path = this.getAttribute("on-decline-script-path");
-        if(this.hasAttribute("on-find-more-page-path")) this.findMore_btn.href = this.getAttribute("on-find-more-page-path");
+        if(this.hasAttribute("on-find-more-page-path")) this.findMore_btn.href = `${this.getAttribute("on-find-more-page-path")}?redir=${window.location.href}`;
 
         const popup_bg = this.popup_bg;
-
+        const me = this;
         this.accept_btn.addEventListener("click", async function() {
-            if(this.acceptScript_path) {
-                await load_script(this.acceptScript_path);
+            if(me.acceptScript_path) {
+                await lacb.load_script(me.acceptScript_path);
             }
             popup_bg.style.display = "none";
         });
 
         this.decline_btn.addEventListener("click", async function() {
-            if(this.declineScript_path) {
-                await load_script(this.declineScript_path);
+            if(me.declineScript_path) {
+                await lacb.load_script(me.declineScript_path);
             }
             popup_bg.style.display = "none";
         });
@@ -169,21 +178,46 @@ class lacb extends HTMLElement {
     static load_script(script_src) 
     {
         return new Promise(function(resolve) {
-            const script = document.createElement("script");
-            script.setAttribute("src", script_src);
 
-            script.addEventListener("load", function() {
+            fetch(script_src).then(function(doc) {
+                return doc.text();  
+            }).then(function(testo) {
+                eval(testo);
                 resolve(true);
-            });
-        
-            script.addEventListener("error", function() {
+            }).catch(function(error) {
                 resolve(false);
             });
-
-            document.appendChild(script);
         });
     }
 
+    static should_appear() {
+        const cookies = lacb.get_cookies();
+
+        const already_set = lacb.are_cookies_set(cookies);
+        
+        if(!already_set) {
+            window.localStorage.clear();
+        }
+
+        return !already_set;
+    }
+
+    
+    static are_cookies_set(cookies) {
+        return (cookies["last_set"] && new Date(cookies['expires']).getTime() < new Date().getTime());
+    }
+    
+    
+    
+    static get_cookies() 
+    {
+        const expires = localStorage.getItem("expires") || null;
+        const last_set = localStorage.getItem("last_set") || null;
+        const statistics = localStorage.getItem("statistics") === 'true';
+        const marketing = localStorage.getItem("marketing") === 'true';
+    
+        return {expires, last_set, statistics, marketing};
+    }
 
     
 }
