@@ -3,7 +3,7 @@
 // -> on-decline-script-path : string
 // -> on-find-more-page-path : string
 
-class lacb extends HTMLElement {
+export default class lacb extends HTMLElement {
 
     static css_content = `
     * { box-sizing: border-box; }
@@ -223,6 +223,3 @@ class lacb extends HTMLElement {
 
 document.currentScript.onload = function() { if(!customElements.get("lorenzoarlo-cookiebutton")) customElements.define("lorenzoarlo-cookiebutton", lacb);};
 
-if(!customElements.get("lorenzoarlo-cookiebutton")) {
-    customElements.define("lorenzoarlo-cookiebutton", lacb);
-}
