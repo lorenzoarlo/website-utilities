@@ -3,7 +3,6 @@
 // -> on-decline-script-path : string
 // -> on-find-more-page-path : string
 
-
 class lacb extends HTMLElement {
 
     static css_content = `
@@ -222,4 +221,8 @@ class lacb extends HTMLElement {
     
 }
 
-document.currentScript.onload = function() { customElements.define("lorenzoarlo-cookiebutton", lacb);}
+document.currentScript.onload = function() { customElements.define("lorenzoarlo-cookiebutton", lacb);};
+
+if(!customElements.get("lorenzoarlo-cookiebutton")) {
+    customElements.define("lorenzoarlo-cookiebutton", lacb);
+}
