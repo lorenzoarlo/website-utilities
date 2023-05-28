@@ -15,9 +15,9 @@ class lacb extends HTMLElement {
     }
 
     .popup-bg {
-        position: absolute;
+        position: fixed;
         inset: 0 0 0 0;
-
+        
         display: grid;
         place-items: center center;
     }
