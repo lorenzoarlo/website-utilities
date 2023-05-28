@@ -36,8 +36,10 @@ class lacb extends HTMLElement {
         height: 100%;
     
         background: rgba(0, 0, 0, 0.25);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(8px);
+        -webkit-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        -webkit-backdrop-filter: blur(8px);
+                backdrop-filter: blur(8px);
         z-index: 0;
     }
 
