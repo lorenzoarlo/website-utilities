@@ -14,15 +14,35 @@ class lacb extends HTMLElement {
         --fg-clr: #000;
     }
 
+    .popup-container {
+        position: fixed;
+        inset: 0 0 0 0;
+        z-index: 101;
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
+
     .popup-bg {
         position: fixed;
         inset: 0 0 0 0;
-        
-        display: grid;
-        place-items: center center;
+        z-index: 101;
+        width: 100%;
+        height: 100%;
+    
+        background: rgba(0, 0, 0, 0.25);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(8px);
+        z-index: 0;
     }
 
     .popup {
+        z-index: 1;
         display: flex;
         width: 70%;
         max-width: 800px;
@@ -100,7 +120,9 @@ class lacb extends HTMLElement {
     `;
 
     static html_content = `
-    <div class="popup-bg" id="popup-bg">
+    <div class="popup-container" id="popup-container">
+        <div class="popup-bg">
+        </div>
         <div class="popup">
             <span class="title">&#x1F36A; Consenti l'utilizzo di cookie?</span>
             <div class="content">
@@ -137,7 +159,7 @@ class lacb extends HTMLElement {
         this.shadowRoot.appendChild(style);
         style.innerHTML = lacb.css_content;
 
-        this.popup_bg = this.shadowRoot.querySelector("#popup-bg");
+        this.popup_bg = this.shadowRoot.querySelector("#popup-container");
         this.accept_btn = this.shadowRoot.querySelector("#accept-button");
         this.decline_btn = this.shadowRoot.querySelector("#decline-button");
         this.findMore_btn = this.shadowRoot.querySelector("#find-more-button");
