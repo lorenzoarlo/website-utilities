@@ -27,11 +27,6 @@ class lacb extends HTMLElement {
         width: auto;
         height: auto;
         border: 0px solid transparent;
-        display: none;
-    }
-
-    dialog[open] {
-        display: block;
     }
 
     dialog::-webkit-backdrop {
@@ -179,8 +174,12 @@ class lacb extends HTMLElement {
         
 
         this.should_appear = lacb.should_appear();
+        if(!this.should_appear) {
+            return;
+        }
+        
         this.shadowRoot.innerHTML = lacb.html_content;
-    
+        
         const style = document.createElement("style");
         this.shadowRoot.appendChild(style);
         style.innerHTML = lacb.css_content;
@@ -214,13 +213,15 @@ class lacb extends HTMLElement {
                 await lacb.load_script(me.acceptScript_path);
             }
             dialog.close();
+            dialog.style.display = "none";
         });
 
         this.decline_btn.addEventListener("click", async function() {
             if(me.declineScript_path) {
                 await lacb.load_script(me.declineScript_path);
             }
-            dialog.close()
+            dialog.close();
+            dialog.style.display = "none";
         });
     }
 
