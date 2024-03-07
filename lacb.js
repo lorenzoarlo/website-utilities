@@ -24,25 +24,30 @@ class lacb extends HTMLElement {
     }
 
     dialog {
-    width: auto;
-    height: auto;
-    border: 0px solid transparent;
+        width: auto;
+        height: auto;
+        border: 0px solid transparent;
+        display: none;
+    }
+
+    dialog[open] {
+        display: block;
     }
 
     dialog::-webkit-backdrop {
-    background: rgba(0, 0, 0, 0.25);
-    -webkit-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-    }
+        background: rgba(0, 0, 0, 0.25);
+        -webkit-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        }
 
     dialog::backdrop {
-    background: rgba(0, 0, 0, 0.25);
-    -webkit-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.25);
+        -webkit-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
     }
 
     #popup-container {
