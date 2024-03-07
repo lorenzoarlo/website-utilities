@@ -6,125 +6,149 @@
 class lacb extends HTMLElement {
 
     static css_content = `
-    * { box-sizing: border-box; }
+    *,
+    *::after,
+    *::before {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    margin: 0;
+    max-width: unset;
+    max-height: unset;
+    outline: 0px solid transparent;
+    }
 
     :root {
-        font-size: 20px;
-        --bg-clr: #fff;
-        --fg-clr: #000;
+    font-size: 20px;
+    --bg-clr: #fff;
+    --fg-clr: #000;
     }
 
-    .popup-container {
-        position: fixed;
-        inset: 0 0 0 0;
-        z-index: 101;
-        width: 100%;
-        height: 100%;
-
-        display: flex;
-        flex-flow: row wrap;
-        justify-content: center;
-        align-items: center;
-        align-content: center;
+    dialog {
+    width: auto;
+    height: auto;
+    border: 0px solid transparent;
     }
 
-    .popup-bg {
-        position: fixed;
-        inset: 0 0 0 0;
-        z-index: 101;
-        width: 100%;
-        height: 100%;
-    
-        background: rgba(0, 0, 0, 0.25);
-        -webkit-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        -webkit-backdrop-filter: blur(8px);
-                backdrop-filter: blur(8px);
-        z-index: 0;
+    dialog::-webkit-backdrop {
+    background: rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    }
+
+    dialog::backdrop {
+    background: rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    }
+
+    #popup-container {
+    display: -ms-grid;
+    display: grid;
+    place-items: center center;
+    background-color: transparent;
     }
 
     .popup {
-        z-index: 1;
-        display: flex;
-        width: 70%;
-        max-width: 800px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 70%;
+    max-width: 800px;
 
-        background-color: #fff;
-        color: #000;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    background-color: #fff;
+    color: #000;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 
-        border-radius: 16px;
-        padding: 20px;
+    border-radius: 16px;
+    padding: 20px;
 
-        flex-flow: column;
-        align-items: stretch;
-        gap: 20px;
+    -webkit-box-orient: vertical;
 
-        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    -webkit-box-direction: normal;
+
+        -ms-flex-flow: column;
+
+            flex-flow: column;
+    -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+            align-items: stretch;
+    gap: 20px;
+
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
     }
 
     .title {
-        display: inline-block;
-        vertical-align: middle;
-        
-        font-size: 1.25rem;
-        font-weight: 500;
+    display: inline-block;
+    vertical-align: middle;
 
-        margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
 
+    margin: 0;
     }
 
     .content {
-        font-weight: 300;
-        margin: 0;
+    font-weight: 300;
+    margin: 0;
     }
 
     .buttons {
-        display: flex;
-        flex-flow: column wrap;
-        gap: 8px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column wrap;
+            flex-flow: column wrap;
+    gap: 8px;
 
-        max-width: 100%;
+    max-width: 100%;
+    -ms-flex-line-pack: center;
         align-content: center;
-        align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     }
 
-
     .btn {
-        border-color: transparent;
-        border-radius: 10px;
+    border-color: transparent;
+    border-radius: 10px;
 
-        white-space: nowrap;
-        overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
         text-overflow: ellipsis;
 
-        text-align: center;
-        text-decorations: none;
+    text-align: center;
+    text-decoration: none;
 
-        outline: transparent;
-        padding: 8px 32px;
+    outline: transparent;
+    padding: 8px 32px;
 
-        font-size: 1rem;
-        width: 100%;
+    font-size: 1rem;
+    width: 100%;
 
-        background-color: #eee;
-        color: #000;
+    background-color: #eee;
+    color: #000;
     }
 
     .accept {
-        background-color: rgb(78, 167, 78);
-        color: #fff;
+    background-color: rgb(78, 167, 78);
+    color: #fff;
     }
 
     .btn:hover {
-        cursor: pointer;
+    cursor: pointer;
     }
     `;
 
     static html_content = `
-    <div class="popup-container" id="popup-container">
-        <div class="popup-bg">
-        </div>
+    <dialog id="popup-container">
         <div class="popup">
             <span class="title">&#x1F36A; Consenti l'utilizzo di cookie?</span>
             <div class="content">
@@ -138,7 +162,7 @@ class lacb extends HTMLElement {
                 <button class="btn" type="button" id="decline-button" >No</button>
             </div>
         </div>
-    </div>
+    </dialog>
     `;
 
     
@@ -150,22 +174,18 @@ class lacb extends HTMLElement {
         
 
         this.should_appear = lacb.should_appear();
-
-        if(!this.should_appear) {
-            return;
-        }
-
         this.shadowRoot.innerHTML = lacb.html_content;
-
+    
         const style = document.createElement("style");
         this.shadowRoot.appendChild(style);
         style.innerHTML = lacb.css_content;
 
-        this.popup_bg = this.shadowRoot.querySelector("#popup-container");
+        this.dialog = this.shadowRoot.querySelector("#popup-container");
         this.accept_btn = this.shadowRoot.querySelector("#accept-button");
         this.decline_btn = this.shadowRoot.querySelector("#decline-button");
         this.findMore_btn = this.shadowRoot.querySelector("#find-more-button");
 
+        
         this.acceptScript_path = null;
         this.declineScript_path = null;
     }
@@ -176,25 +196,26 @@ class lacb extends HTMLElement {
             return;
         }
 
+        this.dialog.showModal();
 
         if(this.hasAttribute("on-accept-script-path")) this.acceptScript_path = this.getAttribute("on-accept-script-path");
         if(this.hasAttribute("on-decline-script-path")) this.declineScript_path = this.getAttribute("on-decline-script-path");
         if(this.hasAttribute("on-find-more-page-path")) this.findMore_btn.href = `${this.getAttribute("on-find-more-page-path")}?redir=${window.location.href}`;
 
-        const popup_bg = this.popup_bg;
+        const dialog = this.dialog;
         const me = this;
         this.accept_btn.addEventListener("click", async function() {
             if(me.acceptScript_path) {
                 await lacb.load_script(me.acceptScript_path);
             }
-            popup_bg.style.display = "none";
+            dialog.close();
         });
 
         this.decline_btn.addEventListener("click", async function() {
             if(me.declineScript_path) {
                 await lacb.load_script(me.declineScript_path);
             }
-            popup_bg.style.display = "none";
+            dialog.close()
         });
     }
 
@@ -248,9 +269,8 @@ class lacb extends HTMLElement {
 document.currentScript.onload = function() { 
     if(!customElements.get("lorenzoarlo-cookiebutton"))
         customElements.define("lorenzoarlo-cookiebutton", lacb); console.log("Element defined!"); 
-    };
+};
 
 if(!customElements.get("lorenzoarlo-cookiebutton")) {
     customElements.define("lorenzoarlo-cookiebutton", lacb);
-
 }
