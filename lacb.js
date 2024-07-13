@@ -1,8 +1,25 @@
-// supported-attributes
-// -> on-accept-script-path : string
-// -> on-decline-script-path : string
-// -> on-find-more-page-path : string
-
+/**
+ * An implementation of a cookie-button
+ * 
+ * @element lorenzoarlo-cookiebutton
+ * 
+ * 
+ * @property {string} on-accept-script-path - The path to the script that will be executed if the user accepts the cookies.
+ * @property {string} on-decline-script-path - The path to the script that will be executed if the user decline the cookies.
+ * @property {string} on-find-more-page-path - "Pannello delle preferenze" URL.
+ * 
+ * @example
+ * 
+ * <script 
+ * 
+ * <lorenzoarlo-cookiebutton
+ *   on-accept-script-path="https://raw.githubusercontent.com/lorenzoarlo/website-utilities/main/accept.js" 
+ *   on-decline-script-path="https://raw.githubusercontent.com/lorenzoarlo/website-utilities/main/decline.js" 
+ *   on-find-more-page-path="https://lorenzoarlo.github.io/privacy-and-cookies/">
+ * </lorenzoarlo-cookiebutton>
+ * 
+ * @author lorenzoarlo
+ */
 class lacb extends HTMLElement {
 
     static css_content = `
@@ -165,14 +182,11 @@ class lacb extends HTMLElement {
     </dialog>
     `;
 
-    
-
     constructor() {
         super();
 
         this.attachShadow({mode: 'open'});
         
-
         this.should_appear = lacb.should_appear();
         if(!this.should_appear) {
             return;
@@ -193,6 +207,7 @@ class lacb extends HTMLElement {
         this.acceptScript_path = null;
         this.declineScript_path = null;
     }
+
 
     connectedCallback() 
     {
@@ -242,7 +257,6 @@ class lacb extends HTMLElement {
 
     static should_appear() {
         const cookies = lacb.get_cookies();
-
         const already_set = lacb.are_cookies_set(cookies);
         
         if(!already_set) {
@@ -273,10 +287,13 @@ class lacb extends HTMLElement {
 }
 
 document.currentScript.onload = function() { 
-    if(!customElements.get("lorenzoarlo-cookiebutton"))
-        customElements.define("lorenzoarlo-cookiebutton", lacb); console.log("Element defined!"); 
+    if(!customElements.get("lorenzoarlo-cookiebutton")) {
+        customElements.define("lorenzoarlo-cookiebutton", lacb); 
+        console.log("lacb - Element defined!");
+    }
 };
 
 if(!customElements.get("lorenzoarlo-cookiebutton")) {
     customElements.define("lorenzoarlo-cookiebutton", lacb);
+    console.log("lacb - Element defined!");
 }
